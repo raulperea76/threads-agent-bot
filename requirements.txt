@@ -1,0 +1,5 @@
+discord.py
+requests
+Flask
+Pillow
+crewai
