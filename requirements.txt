@@ -1,6 +1,7 @@
 discord.py
 requests
-Flask
-Pillow
-crewai
+flask
+pillow
+crewai[google-genai]
+google-genai
 tiktoken>=0.7.0
