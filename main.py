@@ -623,7 +623,7 @@ async def send_draft_preview(ctx, draft) -> None:
 # 8. COMANDOS DISCORD
 # =========================================================
 
-@bot.command(name="post")
+@bot.command(name="threads")
 @commands.guild_only()
 async def comando_post(ctx: commands.Context, *, idea: str = ""):
     if not is_authorized(ctx.author.id):
