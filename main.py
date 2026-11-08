@@ -241,7 +241,7 @@ def obtener_imagen_draft(draft_id):
     draft = get_draft(draft_id)
     if not draft or not draft["image"]:
         return "Imagen no encontrada", 404
-    return Response(draft["image"], mimetype="image/png"]
+    return Response(draft["image"], mimetype="image/png")
 
 @app.get("/")
 def home():
