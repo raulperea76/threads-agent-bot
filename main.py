@@ -297,12 +297,7 @@ def validate_image(data: bytes) -> bytes:
 
 
 def generar_imagen(idea: str) -> bytes | None:
-    prompt = (
-        "Professional technology executive illustration, modern corporate workspace, "
-        "subtle digital infrastructure, data nodes, minimalist vector design, "
-        "high-end tech aesthetic, no text, clean composition. "
-        + idea[:300]
-    )
+    prompt = f"Minimalist illustration representing: {idea.replace('\n',' ')[:250]}. Professional corporate tech aesthetic, vector design, no text, no letters"
     try:
         response = requests.get(
             "https://image.pollinations.ai/prompt/"
@@ -694,7 +689,7 @@ async def comando_post(ctx: commands.Context, *, idea: str = ""):
     if image_bytes is None:
         try:
             image_bytes = await asyncio.wait_for(
-                asyncio.shield(loop.run_in_executor(executor, generar_imagen, idea)),
+                asyncio.shield(loop.run_in_executor(executor, generar_imagen, post_text)),
                 timeout=25,
             )
         except Exception:
