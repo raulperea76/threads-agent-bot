@@ -297,7 +297,8 @@ def validate_image(data: bytes) -> bytes:
 
 
 def generar_imagen(idea: str) -> bytes | None:
-    prompt = f"Minimalist illustration representing: {idea.replace('\n',' ')[:250]}. Professional corporate tech aesthetic, vector design, no text, no letters"
+    texto_limpio = idea.replace("\n"," ")[:250]
+    prompt = f"Funny cartoon illustration, humorous comic art style representing: {texto_limpio}. Satirical visual joke, expressive funny characters, vibrant colorful cartoon, clean design, no text, no letters"
     try:
         response = requests.get(
             "https://image.pollinations.ai/prompt/"
