@@ -373,6 +373,27 @@ def publicar_en_threads(texto: str, image_url: str | None = None) -> str:
     if not creation_id:
         raise RuntimeError("No se obtuvo creation_id de Threads.")
 
+# =========================================================
+# PAUSA Y VERIFICACION DE ESTADO
+# =========================================================
+    time.sleep(3) 
+
+    for _ in range(5):
+        status_res = requests.get(
+            f"{THREADS_API_BASE}/{creation_id}",
+            params={"fields": "status", "access_token": token},
+            timeout=HTTP_TIMEOUT,
+        )
+        if status_res.ok:
+            status = status_res.json().get("status")
+            if status == "FINISHED":
+                break
+            elif status in ("ERROR", "EXPIRED"):
+                raise RuntimeError(
+                    f"El contenedor de Threads falló en Meta con estado: {status}"
+                )
+        time.sleep(2)
+    
     # Paso 2: Publicar el contenedor creado
     publish_url = f"{THREADS_API_BASE}/{user_id}/threads_publish"
     pub_payload = {
