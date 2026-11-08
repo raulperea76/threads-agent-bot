@@ -234,6 +234,14 @@ def database_ok() -> bool:
 # =========================================================
 # 3. FLASK: HEALTH CHECK & KEEP ALIVE
 # =========================================================
+from flask import Response
+
+@app.get("/imagen/<draf_id>")
+def obtener_imagen_draft(draft_id):
+    draft = get_draft(draft_id)
+    if not draft or not draft["image"]:
+        return "Imagen no encontrada", 404
+    return Response(draft["image"], mimetype="image/png"]
 
 @app.get("/")
 def home():
@@ -558,6 +566,13 @@ class ApprovalView(discord.ui.View):
 
         try:
             loop = asyncio.get_running_loop()
+            image_url = None
+            if draft["image"]:
+                render_url = os.getenv(
+                    "RENDER_EXTERNAL_URL","https://threads-agent-bot.onrender.com"
+                ).rstrip("/")
+                image_url = f"{render_url}/image/{self.draft_id}"
+                
             post_id = await loop.run_in_executor(
                 executor, publicar_en_threads, draft["text"], None
             )
